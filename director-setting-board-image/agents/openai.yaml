@@ -1,0 +1,4 @@
+interface:
+  display_name: "导演设定板生图"
+  short_description: "把15秒剧情生成含角色、环境、机位、分镜与声音的导演设定板"
+  default_prompt: "使用 $director-setting-board-image 把这段15秒剧情制作成完整导演设定板图片。"

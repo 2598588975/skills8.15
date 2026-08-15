@@ -1,0 +1,4 @@
+interface:
+  display_name: "诺兰式电影提示词"
+  short_description: "扩写并校准统一青绿暖灰、克制写实的大银幕生成提示词"
+  default_prompt: "使用 $nolan-cinematic-prompts 按统一青绿暖灰色彩签名扩写场景，或检查生成结果并纠偏。"

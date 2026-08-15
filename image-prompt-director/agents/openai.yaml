@@ -1,0 +1,7 @@
+interface:
+  display_name: "Image Prompt Director"
+  short_description: "Creates Chinese image prompts from visuals and scene ideas"
+  default_prompt: "Use $image-prompt-director to turn this image idea into a direct Chinese image-generation prompt."
+
+policy:
+  allow_implicit_invocation: true

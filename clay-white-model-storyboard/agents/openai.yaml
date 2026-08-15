@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clay White-Model Storyboard"
+  short_description: "Create coherent cinematic storyboards in matte white clay"
+  default_prompt: "Use $clay-white-model-storyboard to turn this script into a coherent white-clay cinematic storyboard."

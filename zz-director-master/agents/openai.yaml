@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zz超级导演大师"
+  short_description: "从剧本定调、调度与分镜推进到AI视频执行和成片质检"
+  default_prompt: "Use $zz-director-master to turn this script into a coherent director plan, executable storyboard, and AI-video production package."

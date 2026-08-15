@@ -1,0 +1,4 @@
+interface:
+  display_name: "Weisenandesen"
+  short_description: "Retro symmetric film prompts"
+  default_prompt: "Use $weisenandesen to turn “一个女孩在酒店走廊” into a retro symmetrical cinematic Chinese image prompt."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "按秒视频分镜脚本"
+  short_description: "把剧本拆成场景统一规则与带画面、运镜、情绪的按秒分镜。"
+  default_prompt: "使用 $seedance-storyboard，先按场景段落整理统一规则，再把我的剧本拆成按秒数的视频分镜脚本。"

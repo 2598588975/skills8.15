@@ -1,0 +1,4 @@
+interface:
+  display_name: "剧本到电影制作板"
+  short_description: "把剧本转换为16:9制作板、八镜头分镜与Seedance提示词"
+  default_prompt: "使用 $script-to-cinematic-production-board 将这份剧本转成16:9电影制作板和八镜头Seedance分镜方案。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "史诗感动作分镜"
+  short_description: "将动作、超能力与大场面转为电影级文字分镜、光影渲染和特效规格"
+  default_prompt: "Use $epic-action-storyboard to turn this action scene into a segmented cinematic shot script with locked lighting, rendering, VFX physics, and one-take continuity when needed."

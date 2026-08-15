@@ -1,0 +1,128 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.11"]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        run: python -m pip install --upgrade pip uv
+
+      - name: Create virtual environment
+        run: uv venv
+
+      - name: Install package (editable) + test deps
+        run: uv pip install -e ".[dev]"
+
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        run: .\.venv\Scripts\python.exe -m pytest -q scripts/tests
+
+      - name: Run tests (Unix)
+        if: runner.os != 'Windows'
+        run: .venv/bin/python -m pytest -q scripts/tests
+
+      - name: Build wheel (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          uv pip install build wheel setuptools
+          .venv/bin/python -m build --wheel --no-isolation
+
+      - name: Install wheel + smoke CLI (Unix)
+        if: runner.os != 'Windows'
+        env:
+          COMFYUI_SKILL_USER_DATA_ROOT: ${{ github.workspace }}/.ci-user-data
+        run: |
+          uv pip install dist/*.whl
+          .venv/bin/comfyui-agent-skill-mie --help
+          .venv/bin/comfyui-skill --help
+          set +e
+          OUT=$(.venv/bin/comfyui-skill generate --preflight --workflow z_image_turbo --server http://127.0.0.1:59997)
+          CODE=$?
+          set -e
+          echo "$OUT"
+          export OUT
+          .venv/bin/python - <<'PY'
+          import json
+          import os
+          out = os.environ.get("OUT", "").strip()
+          if not out:
+              raise SystemExit("expected JSON stdout from --preflight")
+          data = json.loads(out)
+          assert data["success"] is False
+          assert data["error"]["code"] == "PREFLIGHT_SERVER_UNREACHABLE"
+          PY
+          test "$CODE" -eq 1
+
+      - name: pipx install from wheel (Unix)
+        if: runner.os != 'Windows'
+        env:
+          PIPX_HOME: ${{ github.workspace }}/.pipx
+          PIPX_BIN_DIR: ${{ github.workspace }}/.pipx/bin
+          COMFYUI_SKILL_USER_DATA_ROOT: ${{ github.workspace }}/.ci-user-data
+        run: |
+          uv pip install pipx
+          .venv/bin/pipx install dist/*.whl --force
+          ${{ github.workspace }}/.pipx/bin/comfyui-agent-skill-mie --help
+          ${{ github.workspace }}/.pipx/bin/comfyui-skill --help
+
+      - name: uv tool install from wheel (Unix)
+        if: runner.os != 'Windows'
+        env:
+          COMFYUI_SKILL_USER_DATA_ROOT: ${{ github.workspace }}/.ci-user-data
+        run: |
+          uv tool install dist/*.whl
+          comfyui-agent-skill-mie --help
+          comfyui-skill --help
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build distributions
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+
+      - name: Validate tag matches project version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PYPROJECT_VERSION="$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")"
+          echo "tag=$TAG_VERSION"
+          echo "pyproject=$PYPROJECT_VERSION"
+          if [ "$TAG_VERSION" != "$PYPROJECT_VERSION" ]; then
+            echo "ERROR: Tag version (v$TAG_VERSION) does not match pyproject.toml project.version ($PYPROJECT_VERSION)." >&2
+            echo "Fix by bumping pyproject.toml version to $TAG_VERSION (or retagging to v$PYPROJECT_VERSION)." >&2
+            exit 1
+          fi
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true

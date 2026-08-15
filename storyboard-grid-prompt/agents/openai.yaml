@@ -1,0 +1,6 @@
+interface:
+  display_name: "???????"
+  short_description: "???????9?12???????"
+  default_prompt: "Use $storyboard-grid-prompt to create a production-ready visual prompt."
+policy:
+  allow_implicit_invocation: true

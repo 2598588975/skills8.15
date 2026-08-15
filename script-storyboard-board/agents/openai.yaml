@@ -1,0 +1,4 @@
+interface:
+  display_name: "Script Storyboard Board"
+  short_description: "Create cinematic 16:9 preproduction storyboard boards."
+  default_prompt: "Use $script-storyboard-board to create a cinematic 16:9 visual planning board for this short film or commercial concept."

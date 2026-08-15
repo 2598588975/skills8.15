@@ -1,0 +1,4 @@
+interface:
+  display_name: "竖版电影海报"
+  short_description: "生成3:4电影海报、片名封面、短剧主视觉和KV体系。"
+  default_prompt: "使用 $cinema-vertical-poster，把我的电影或短剧概念做成3:4竖版电影海报和主视觉体系。"

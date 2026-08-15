@@ -1,0 +1,4 @@
+interface:
+  display_name: "Micro Expression Control"
+  short_description: "Control subtle facial expression arcs in video prompts."
+  default_prompt: "Use $micro-expression-control to rewrite this video prompt with subtle facial expression changes, eye movement, breathing, and non-posed physical cues."

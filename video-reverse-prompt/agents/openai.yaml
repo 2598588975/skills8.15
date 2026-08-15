@@ -1,0 +1,7 @@
+interface:
+  display_name: "视频反推提示词"
+  short_description: "逐秒拆解视频并生成导演级AI视频提示词"
+  default_prompt: "Use $video-reverse-prompt to analyze this video by visual structure and timeline, then produce a second-by-second storyboard and a Chinese generation prompt."
+policy:
+  allow_implicit_invocation: true
+

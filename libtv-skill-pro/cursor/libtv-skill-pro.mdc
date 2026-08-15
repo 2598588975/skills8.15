@@ -1,0 +1,96 @@
+---
+description: LibTV (liblib.tv) AI 视频/图像生成工具集。当用户要求生成/编辑图片或视频、提到 liblib / libtv / AI 视频 / MV / 短剧 / 分镜 / 角色三视图等时使用。
+globs:
+alwaysApply: false
+---
+
+# LibTV Skill Pro · Cursor Rule
+
+本机已安装 LibTV AI 视频/图像生成工具（v0.4.0）。当用户请求生成或编辑图片/视频时，按下面规范使用脚本（绝对路径）。
+
+## 前置
+
+用户需先配置环境变量：
+
+```bash
+export LIBTV_ACCESS_KEY=<key from https://www.liblib.tv 用户中心>
+```
+
+如果未配置，先告知用户去拿 access key，不要尝试运行命令。
+
+## 统一入口
+
+所有功能通过 `python3 /Users/liuqinghua/.agents/skills/libtv-skill/scripts/libtv.py <子命令>` 调用。
+
+为了 prompt 简洁，可以先定义 alias：
+
+```bash
+alias libtv='python3 /Users/liuqinghua/.agents/skills/libtv-skill/scripts/libtv.py'
+```
+
+## 决策树
+
+| 用户输入 | 用哪条命令 |
+|---|---|
+| 用户给了本地图/视频路径 | 先 `libtv upload <file>` 拿 OSS URL，再传给下一步 |
+| 模糊一句话「画只猫 / 做个 MV」 | `libtv session "<消息>"` 让后端 Agent 自己路由 |
+| 明确想要 LibTV 某个入口 | `libtv flow <preset>` (story_script / character_views / keyframe_to_video / audio_to_video) |
+| 明确想用某模型 | `libtv model with <model> "<prompt>" --ratio <X> --resolution <Y> --duration <Z>` |
+| 已生成内容上加修饰 | `libtv edit <modifier> --session-id <SID>` (style / mark / focus / camera / character_lib) |
+| 批量任务 | `libtv batch --file tasks.txt --workers 5` |
+| 短剧 / MV / 角色设计预设 | `libtv template <name> "<topic>"` |
+| 等结果 | `libtv poll <SID>` |
+| 取结果到本地 | `libtv download <SID> --output-dir <dir>` |
+
+## 重要约束
+
+1. **永远先 `--dry-run`**：所有 flow / node / edit / model 子命令支持 `--dry-run`，输出将发送的 prompt 但不烧积分。调真 API 前必须 dry-run 一次让用户确认。
+
+2. **不要替用户改写 prompt**：用户的原始描述直接 forward，不要自己加"超写实、电影级光影、8K"之类。后端 Agent 比用户侧更专业。
+
+3. **轮询超时**：`poll` 默认 8s 间隔、10 分钟超时。视频生成可能更慢，超时后告知用户去 `projectUrl` 看画布。
+
+4. **错误结构化**：v0.4.0 起所有 API 错误以 JSON 写到 stderr，含 `kind` / `http_code` / `message` / `raw`。kind 枚举：
+   - `INVALID_ACCESS_KEY` (401)
+   - `FORBIDDEN_OR_INSUFFICIENT_CREDITS` (403)
+   - `NOT_FOUND` (404)
+   - `RATE_LIMITED` (429)
+   - `SERVER_ERROR` (500)
+   - `NETWORK_ERROR`
+   - `INTERRUPTED`
+
+5. **完成时给用户两个链接**：结果 URL（图/视频）+ projectUrl（LibTV 画布）。中途只说"生成中"，不提前给 projectUrl。
+
+## 已知模型（用 `libtv model list` 查最新）
+
+- **LLM**：gvlm-3.1
+- **图像**：lib-nano-pro（默认）/ nano-banana / midjourney / seedream-5.0
+- **视频**：seedance-2.0-vip（默认）/ kling-3.0 / kling-o3 / wan-2.6
+
+参数：`--ratio 16:9` `--resolution 720P|2K` `--duration 5s` `--count "1张"`
+
+## 完整示例
+
+```bash
+# 1. 预览
+libtv model with lib-nano-pro "白色短毛猫坐在窗台上" \
+  --ratio 1:1 --resolution 2K --dry-run
+
+# 2. 真实生成（拿 sessionId）
+RESULT=$(libtv model with lib-nano-pro "白色短毛猫坐在窗台上" --ratio 1:1 --resolution 2K)
+SID=$(echo "$RESULT" | python3 -c "import sys,json;print(json.loads(sys.stdin.read())['sessionId'])")
+
+# 3. 等结果
+libtv poll "$SID"
+
+# 4. 下载
+libtv download "$SID" --output-dir ~/Downloads/cat
+```
+
+更多 case 见 `/Users/liuqinghua/.agents/skills/libtv-skill/examples/`：
+
+- 01-generate-image.md（生图）
+- 02-generate-video.md（视频，≈135 积分）
+- 03-edit-with-reference.md（局部编辑）
+- 04-character-to-video.md（角色三视图 → 首帧图生视频）
+- 05-batch-images.md（批量并发 + HTML 报告）

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.bak
+*.tmp
+
+# 临时
+.DS_Store
+*.swp
+*~
+
+# 本地状态文件（不应提交）
+.libtv_*.json
+~/.libtv_projects.json
+
+# clawhub 本地安装状态
+.clawhub/
+_meta.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+Thumbs.db
+.AppleDouble

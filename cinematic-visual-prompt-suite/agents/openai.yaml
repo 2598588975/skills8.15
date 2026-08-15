@@ -1,0 +1,6 @@
+interface:
+  display_name: "电影视觉提示词套件"
+  short_description: "日系风格、色卡、焦段、反推、构图与故事板工作流"
+  default_prompt: "Use $cinematic-visual-prompt-suite to turn my visual idea or reference image into a controlled cinematic prompt and storyboard plan."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,4 @@
+{
+  "description": "21个跨时代、跨地域、跨主体的回归场景，新增参考图空间色彩转译、35mm负片—印片响应与无人物参考时的原创欧美人物默认选角校准。权威输入位于 tests/inputs.json。",
+  "case_ids": ["restaurant-wait","milk-store","silent-car","hotel-talk","bar-entry","rain-bus","empty-aftermath","china-courier","ancient-inn","future-ship","road-dog","motel-lot","trunk-calibration","old-hall-modern-dance","agent-direct-threat","face-to-face-dance-hard-lock","feedback-billiards-light-color","feedback-laundry-light-color","feedback-watch-light-color","default-original-western-casting","reference-poster-dance-color-transfer"]
+}

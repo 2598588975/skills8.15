@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "视频素材剪辑整理"
+  short_description: "整理生成素材，制定剪辑、字幕、调色、预览和交付检查方案。"
+  default_prompt: "使用 $video-use，整理我的AI视频素材并生成剪辑策略、字幕和交付检查清单。"

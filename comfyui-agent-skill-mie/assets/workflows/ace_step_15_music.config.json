@@ -1,0 +1,43 @@
+{
+  "workflow_id": "ace_step_15_music",
+  "workflow_file": "ace_step_15_music.json",
+  "output_node_title": "Save Audio (MP3)",
+  "capability": "text_to_music",
+  "description": "Ace Step 1.5 music generation to MP3 (tags + optional lyrics)",
+  "size_strategy": "workflow_managed",
+  "output_kind": "audio",
+  "intent_categories": ["text_to_music", "music_audio"],
+  "input_modes": ["text"],
+  "priority": 70,
+  "keywords_any": ["music", "song", "instrumental", "音乐", "歌曲", "伴奏", "配乐", "旋律", "作曲", "beat"],
+  "selection_guidance": {
+    "best_for": [
+      "music generation",
+      "instrumental tracks and song-style audio"
+    ],
+    "avoid_for": [
+      "text-to-speech narration",
+      "image/video generation"
+    ],
+    "agent_hint": "Use this workflow for music/audio generation. The prompt is treated as tags; do not use TTS flags or width/height."
+  },
+  "node_mapping": {
+    "prompt": {
+      "node_title": "TextEncodeAceStepAudio1.5",
+      "param": "tags",
+      "value_type": "string",
+      "required": true
+    },
+    "lyrics": {
+      "node_title": "TextEncodeAceStepAudio1.5",
+      "param": "lyrics",
+      "value_type": "string"
+    },
+    "seed": {
+      "node_title": "TextEncodeAceStepAudio1.5",
+      "param": "seed",
+      "value_type": "integer",
+      "auto_random": true
+    }
+  }
+}

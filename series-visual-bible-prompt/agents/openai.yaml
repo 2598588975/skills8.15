@@ -1,0 +1,6 @@
+interface:
+  display_name: "Series Visual Bible Prompt"
+  short_description: "短剧、广告片和AI视频的整体视觉风格提示词"
+  default_prompt: "Use $series-visual-bible-prompt to create a reusable visual style bible for this short drama, ad film, or AI-video project."
+policy:
+  allow_implicit_invocation: true

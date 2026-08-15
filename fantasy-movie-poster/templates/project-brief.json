@@ -1,0 +1,25 @@
+{
+  "title": "",
+  "english_title": "",
+  "logline": "",
+  "genre": "",
+  "core_conflict": "",
+  "characters": [],
+  "setting": "",
+  "visual_motifs": [],
+  "poster_model": "",
+  "color_system": {
+    "primary": "",
+    "secondary": "",
+    "accent": ""
+  },
+  "typography": {
+    "main_title_style": "",
+    "subtitle_style": "",
+    "signature": "梵想美学"
+  },
+  "output": {
+    "ratio": "9:16",
+    "layered": true
+  }
+}

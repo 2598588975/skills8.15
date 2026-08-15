@@ -1,0 +1,7 @@
+interface:
+  display_name: "图片风格反推提示词"
+  short_description: "拆解图片风格并生成可复刻、可迁移的提示词系统"
+  default_prompt: "Use $image-style-reverse-prompt to reverse-engineer this image into a reusable visual system, replication prompt, template, negative prompt, and model-specific versions."
+policy:
+  allow_implicit_invocation: true
+

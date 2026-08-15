@@ -1,0 +1,4 @@
+interface:
+  display_name: "电影犯罪类型提示词"
+  short_description: "将简单画面扩写为克制、有张力且可直接生成的电影提示词"
+  default_prompt: "使用 $kunting 将我的简单画面描述扩写为可直接使用的电影级静态图像提示词。"

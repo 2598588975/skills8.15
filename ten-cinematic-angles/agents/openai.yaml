@@ -1,0 +1,6 @@
+interface:
+  display_name: "10?????"
+  short_description: "??????????????????"
+  default_prompt: "Use $ten-cinematic-angles to create a production-ready visual prompt."
+policy:
+  allow_implicit_invocation: true

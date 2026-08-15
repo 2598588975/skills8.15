@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "LibTV单镜头执行器"
+  short_description: "手动确认后连接LibTV，上传素材、生成单镜头并下载结果。"
+  default_prompt: "使用 $libtv-skill，在我确认后把单个镜头提交到LibTV生成并查询下载结果。"

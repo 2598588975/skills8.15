@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+ENV/
+results/
+output/
+.tmp/
+.tmp_user_data/
+.claude/
+config.local.json
+review/
+
+# Local SQLite job store (async polling)
+jobs.db
+
+# Build / tooling
+*.egg-info/
+.omc/
+build/
+dist/
+
+# Generated artifacts
+SKILL.pdf

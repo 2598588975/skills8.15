@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zz超级编剧大师"
+  short_description: "从灵感、大纲与人物推进到会诊、台词和可执行剧本"
+  default_prompt: "Use $zz-screenwriting-master to develop this idea into a camera-ready screenplay through the appropriate staged workflow."
